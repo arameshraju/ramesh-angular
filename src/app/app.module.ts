@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
+import { Router } from '@angular/router';
+import {AppRoutingModule} from './app-routing.module';
 /*app Modules*/
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
@@ -23,8 +25,15 @@ import { ProductsComponent } from './products/products.component';
 import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
-  imports:      [ BrowserModule,BrowserAnimationsModule, FormsModule,CollapseModule.forRoot() ],
+  imports:      [ BrowserModule,BrowserAnimationsModule, FormsModule,CollapseModule.forRoot(),AppRoutingModule ],
   declarations: [ AppComponent, HelloComponent, LoginComponent, HomeComponent, UserProfileComponent, PatientProfileComponent, OrderComponent, PatientUpdatesComponent, OrderReportComponent, NotificationComponent, WipComponent, ContactComponent, ProductsComponent, FaqComponent ],
   bootstrap:    [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+   constructor(router: Router) {
+    // Use a custom replacer to display function names in the route configs
+    // const replacer = (key, value) => (typeof value === 'function') ? value.name : value;
+
+    // console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+  }
+ }
