@@ -10,6 +10,7 @@ import { AuthorizationService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm : FormGroup;
   sighnupForm: FormGroup;
+  authCodeForm: FormGroup;
   constructor(private loginBuilder: FormBuilder, private sighnupBuilder:FormBuilder,private auth: AuthorizationService) {
     this.loginForm=loginBuilder.group({
       loginEmail:[null],
@@ -19,6 +20,9 @@ export class LoginComponent implements OnInit {
       signupEmail:[null],
       signupPwd1:[null],
       signupPwd2:[null]
+    });
+    this.authCodeForm=sighnupBuilder.group({
+      authCodeText:[null]
     });
    }
 
@@ -38,6 +42,21 @@ export class LoginComponent implements OnInit {
         // this.error = "Registration Error has occurred";
       }
     );
+  }
+  authCideSubmit(authCode){
+    console.log(authCode);
+    this.auth.confirmAuthCode(authCode.authCodeText).subscribe(
+      (data) => {
+        console.log(data);
+        //this._router.navigateByUrl('/');
+        //this.codeWasConfirmed = true;
+        //this.confirmCode = false;
+      },
+      (err) => {
+        console.log(err);
+        console.log(err);
+        //this.error = "Confirm Authorization Error has occurred";
+      });
   }
 
 }
