@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {AuthenticationDetails, CognitoUser, CognitoUserPool} from 'amazon-cognito-identity-js';
+import {AuthenticationDetails, CognitoUser, CognitoUserPool,CognitoUserAttribute} from 'amazon-cognito-identity-js';
 import { Observable, of } from 'rxjs';
 
 const poolData = {
-  UserPoolId: 'Your user pool', // Your user pool id here
-  ClientId: 'Your Client Id' // Your client id here  
+ UserPoolId: '', // Your user pool id here
+  ClientId: '' // Your client id here
 };
 
 const userPool = new CognitoUserPool(poolData);
@@ -16,9 +16,14 @@ export class AuthorizationService {
   constructor() { }
 
   register(email, password) {
+    console.log(email);
+    console.log(password);
 
     const attributeList = [];
-
+  attributeList.push(new CognitoUserAttribute({
+            Name: 'email',
+            Value: email
+        }));
     return Observable.create(observer => {
       userPool.signUp(email, password, attributeList, null, (err, result) => {
         if (err) {
