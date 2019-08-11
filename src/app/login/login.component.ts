@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder,FormGroup} from '@angular/forms';
 import { AuthorizationService } from '../services/auth.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
   loginForm : FormGroup;
   sighnupForm: FormGroup;
   authCodeForm: FormGroup;
-  constructor(private loginBuilder: FormBuilder, private sighnupBuilder:FormBuilder,private auth: AuthorizationService) {
+  constructor(private loginBuilder: FormBuilder, private sighnupBuilder:FormBuilder,private auth: AuthorizationService, private _router: Router) {
     this.loginForm=loginBuilder.group({
       loginEmail:[null],
       loginPwd:[null]
@@ -30,9 +30,19 @@ export class LoginComponent implements OnInit {
   }
   loginSubmit(loginData){
     console.log(loginData);
+    const email = loginData.loginEmail;
+    const password =loginData.loginPwd;
+    this.auth.signIn(email, password).subscribe((data) => {
+      console.log(data);
+      this._router.navigateByUrl('/home');
+    }, (err)=> {
+      console.log(err);
+      // this.emailVerificationMessage = true;
+    });   
   }
   signupSubmit(signupData){
     console.log(signupData);
+
     this.auth.register(signupData.signupEmail, signupData.signupPwd1).subscribe(
       (data) => {        
         console.log(data);
