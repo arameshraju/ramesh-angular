@@ -11,6 +11,8 @@ export class LoginComponent implements OnInit {
   loginForm : FormGroup;
   sighnupForm: FormGroup;
   authCodeForm: FormGroup;
+   isAuthcode:boolean=false;
+
   constructor(private loginBuilder: FormBuilder, private sighnupBuilder:FormBuilder,private auth: AuthorizationService, private _router: Router) {
     this.loginForm=loginBuilder.group({
       loginEmail:[null],
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
     this.auth.register(signupData.signupEmail, signupData.signupPwd1).subscribe(
       (data) => {        
         console.log(data);
+        this.isAuthcode=true;
       },
       (err) => {
         console.log(err);

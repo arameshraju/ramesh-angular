@@ -2,7 +2,8 @@
 
   <div class="col-md-4">
     <h2>Sign Up!</h2>
-<form [formGroup]="sighnupForm" (ngSubmit)="signupSubmit(sighnupForm.value)" >  <div class="form-group">
+<form [formGroup]="sighnupForm" (ngSubmit)="signupSubmit(sighnupForm.value)" *ngIf="!isAuthcode" > 
+   <div class="form-group">
     <label for="signupInputEmail">Email address</label>
     <input type="email" class="form-control" id="signupInputEmail" placeholder="Email"  formControlName="signupEmail">
   </div>
@@ -16,8 +17,9 @@
   </div>
    <button type="submit" class="btn btn-default">Sign Up</button>
 </form>
-<form [formGroup]="authCodeForm" (ngSubmit)="authCideSubmit(authCodeForm.value)" >  
+<form [formGroup]="authCodeForm" (ngSubmit)="authCideSubmit(authCodeForm.value)" *ngIf="isAuthcode" >  
   <h3>auth code</h3>
+  <p> * please check you email inbox for authcode. you will get it from amazone.</p>
   <div class="form-group">
     <label for="authInput">you auth code</label>
     <input type="text" class="form-control" id="authInput" placeholder="auth code"  formControlName="authCodeText">
