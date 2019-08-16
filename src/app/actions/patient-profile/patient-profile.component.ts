@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder,FormGroup} from '@angular/forms';
-
+import { PatientService } from '../../services/patient.service';
 @Component({
   selector: 'app-patient-profile',
   templateUrl: './patient-profile.component.html',
@@ -9,7 +9,7 @@ import {FormBuilder,FormGroup} from '@angular/forms';
 export class PatientProfileComponent implements OnInit {
    patientRegForm:FormGroup;
  
-  constructor(private patientBuilder:FormBuilder ) {
+  constructor(private patientBuilder:FormBuilder,private patientService:PatientService ) {
     this.patientRegForm=patientBuilder.group({
       name:[null],
       gender:[null],
@@ -22,7 +22,7 @@ export class PatientProfileComponent implements OnInit {
   ngOnInit() {
   }
   onSave(data){
-    console.log(data);
+     this.patientService.savePatient(data);
   }
 
 }

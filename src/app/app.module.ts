@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+/** app Services */
 import { AuthorizationService } from './services/auth.service';
+import { PatientService } from './services/patient.service';
 
 /**ngx modules */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,7 +30,7 @@ import { FaqComponent } from './faq/faq.component';
 @NgModule({
   imports:      [ BrowserModule,BrowserAnimationsModule, FormsModule,CollapseModule.forRoot(),AppRoutingModule,ReactiveFormsModule ],
   declarations: [ AppComponent, HelloComponent, LoginComponent, HomeComponent, UserProfileComponent, PatientProfileComponent, OrderComponent, PatientUpdatesComponent, OrderReportComponent, NotificationComponent, WipComponent, ContactComponent, ProductsComponent, FaqComponent ],
-  providers: [AuthorizationService],
+  providers: [AuthorizationService,PatientService],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule {
