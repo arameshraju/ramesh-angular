@@ -1,1 +1,31 @@
-<h2>Patient page</h2>
+<div class="row">
+  <div class="col-md-4">
+    <h3>Patient Registration</h3>
+
+    <form [formGroup]="patientRegForm" (ngSubmit)="onSave(patientRegForm.value)" > 
+   <div class="form-group">
+    <label for="patientName">Patient Name</label>
+    <input type="text" class="form-control" id="patientName" placeholder="Patient Name"  formControlName="name">
+  </div>
+  <div class="form-group">
+    <label for="patientGender">Gender</label><br>
+     <input type="radio" name="gender"  value="male" checked formControlName="gender" id="patientGender">  Male
+  <input type="radio" name="gender" value="female" formControlName="gender" id="patientGender" > Female
+  <input type="radio" name="gender" value="other" formControlName="gender" id="patientGender"> Other
+  </div>
+  <div class="form-group">
+    <label for="patientAge">Age</label>
+    <input type="number" class="form-control" id="patientAge" placeholder="Age" formControlName="age">
+  </div>
+    <div class="form-group">
+    <label for="patientDesc">Description</label> <br/>
+    <textarea name="message" class="form-control"  rows="10" cols="50" id="patientDesc" formControlName="desc">
+    </textarea>
+    
+  </div>
+   <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+  </div>>
+
+</div>
