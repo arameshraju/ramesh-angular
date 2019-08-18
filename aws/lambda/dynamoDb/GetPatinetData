@@ -4,7 +4,7 @@ AWS.config.update({
 });
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-exports.handler = async function (event,context,callback) {
+exports.handler =  function (event,context,callback) {
     // TODO implement
     var scanParams = {
     TableName: 'patient_master',
@@ -16,7 +16,11 @@ docClient.scan(scanParams, function(err, data) {
         callback(err,null);
     } else {
         console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-        callback(null,data);
+        
+        callback(null,{
+        statusCode: 200,
+        body: JSON.stringify(data.Items),
+});
     }
 });
 };
