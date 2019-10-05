@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import {AuthenticationDetails, CognitoUser, CognitoUserPool,CognitoUserAttribute} from 'amazon-cognito-identity-js';
 import { Observable, of } from 'rxjs';
-
-const poolData = {
- UserPoolId: 'us-east-1_xxxxxxxx', // Your user pool id here
- ClientId: 'xxxxxxxx' // Your client id here
-};
-
-const userPool = new CognitoUserPool(poolData);
+import { Config } from '../services/config.service';
 
 @Injectable()
 export class AuthorizationService {
   cognitoUser: any;
+   userPool : any;
+    
 
-  constructor() { }
+  constructor(private config : Config) {
+    this.userPool = new CognitoUserPool(config.AUTH);
+   }
 
   register(email, password) {
     console.log(email);
@@ -25,7 +23,7 @@ export class AuthorizationService {
             Value: email
         }));
     return Observable.create(observer => {
-      userPool.signUp(email, password, attributeList, null, (err, result) => {
+      this.userPool.signUp(email, password, attributeList, null, (err, result) => {
         if (err) {
           console.log("signUp error", err);
           observer.error(err);
@@ -43,7 +41,7 @@ export class AuthorizationService {
   confirmAuthCode(code) {
     const user = {
       Username : this.cognitoUser.username,
-      Pool : userPool
+      Pool : this.userPool
     };
     return Observable.create(observer => {
       const cognitoUser = new CognitoUser(user);
@@ -69,7 +67,7 @@ export class AuthorizationService {
 
     const userData = {
       Username : email,
-      Pool : userPool
+      Pool : this.userPool
     };
     const cognitoUser = new CognitoUser(userData);
     
@@ -91,12 +89,12 @@ export class AuthorizationService {
   }
 
   isLoggedIn() {    
-    return userPool.getCurrentUser() != null;
+    return this.userPool.getCurrentUser() != null;
   }
 
   getAuthenticatedUser() {
     // gets the current user from the local storage
-    return userPool.getCurrentUser();
+    return this.userPool.getCurrentUser();
   }
 
   logOut() {
