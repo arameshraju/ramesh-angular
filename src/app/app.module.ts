@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 /** app Services */
 import { Config } from './services/config.service';
 import { AuthorizationService } from './services/auth.service';
@@ -29,7 +31,7 @@ import { ProductsComponent } from './products/products.component';
 import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
-  imports:      [ BrowserModule,BrowserAnimationsModule, FormsModule,CollapseModule.forRoot(),AppRoutingModule,ReactiveFormsModule ],
+  imports:      [ BrowserModule,BrowserAnimationsModule, FormsModule,CollapseModule.forRoot(),AppRoutingModule,ReactiveFormsModule,HttpClientModule ],
   declarations: [ AppComponent, HelloComponent, LoginComponent, HomeComponent, UserProfileComponent, PatientProfileComponent, OrderComponent, PatientUpdatesComponent, OrderReportComponent, NotificationComponent, WipComponent, ContactComponent, ProductsComponent, FaqComponent ],
   providers: [Config,AuthorizationService,PatientService],
   bootstrap:    [ AppComponent ]

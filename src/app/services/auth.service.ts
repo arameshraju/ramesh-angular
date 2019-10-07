@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import {AuthenticationDetails, CognitoUser, CognitoUserPool,CognitoUserAttribute} from 'amazon-cognito-identity-js';
 import { Observable, of } from 'rxjs';
 import { Config } from '../services/config.service';
@@ -7,9 +9,9 @@ import { Config } from '../services/config.service';
 export class AuthorizationService {
   cognitoUser: any;
    userPool : any;
-    
+   token : any;
 
-  constructor(private config : Config) {
+  constructor(private config : Config,private http: HttpClient) {
     this.userPool = new CognitoUserPool(config.AUTH);
    }
 
@@ -75,8 +77,8 @@ export class AuthorizationService {
 
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-          
           console.log(result);
+          this.token=result.idToken.jwtToken;
           observer.next(result);
           observer.complete();
         },
@@ -101,4 +103,13 @@ export class AuthorizationService {
     this.getAuthenticatedUser().signOut();
     this.cognitoUser = null;
   }
+  RestCall(url,parms){
+      // var headers = new Headers({'Authorization',"");
+      console.log(this.userPool.username);
+      console.log(this.userPool.clientId);
+      console.log("********************");
+      console.log(JSON.stringify(this.userPool));
+      // return  this.http.get(this.config.REST_API +url);
+  }
+
 }
