@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
+import { AuthorizationService } from '../services/auth.service';
 
 @Injectable()
 export class PatientService {
   patinet:{};
   patientList:[];
-  constructor(private http: HttpClient) {
-    this.http.get("https://7lwlhtws9c.execute-api.us-east-1.amazonaws.com/rameshStage/getpatientdata").subscribe( response=>{
-        console.log(JSON.stringify( response));
-    });;
+  constructor(private auth : AuthorizationService) {
+
+    auth.RestCall("test",{});
 
    }
 savePatient(data){

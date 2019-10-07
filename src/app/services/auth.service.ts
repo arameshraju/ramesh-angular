@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {AuthenticationDetails, CognitoUser, CognitoUserPool,CognitoUserAttribute} from 'amazon-cognito-identity-js';
+import {AuthenticationDetails, CognitoUser, CognitoUserPool,CognitoUserAttribute,CognitoUserSession} from 'amazon-cognito-identity-js';
 import { Observable, of } from 'rxjs';
 import { Config } from '../services/config.service';
 
@@ -11,7 +11,7 @@ export class AuthorizationService {
    userPool : any;
    token : any;
 
-  constructor(private config : Config,private http: HttpClient) {
+  constructor(private config : Config , private http : HttpClient) {
     this.userPool = new CognitoUserPool(config.AUTH);
    }
 
@@ -76,9 +76,7 @@ export class AuthorizationService {
     return Observable.create(observer => {
 
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function (result) {
-          console.log(result);
-          this.token=result.idToken.jwtToken;
+        onSuccess: function (result:CognitoUserSession) {
           observer.next(result);
           observer.complete();
         },
@@ -98,18 +96,27 @@ export class AuthorizationService {
     // gets the current user from the local storage
     return this.userPool.getCurrentUser();
   }
-
   logOut() {
     this.getAuthenticatedUser().signOut();
     this.cognitoUser = null;
   }
   RestCall(url,parms){
-      // var headers = new Headers({'Authorization',"");
-      console.log(this.userPool.username);
-      console.log(this.userPool.clientId);
-      console.log("********************");
-      console.log(JSON.stringify(this.userPool));
-      // return  this.http.get(this.config.REST_API +url);
+    console.log("test Rest Call");
+    this.getAuthenticatedUser().getSession((err, session) => {
+            if (err) {
+                alert(err);
+                return;
+            }
+             this.http.get("https://7lwlhtws9c.execute-api.us-east-1.amazonaws.com/rameshStage/getpatientdata",
+                {
+                  headers:  new Headers({'Authrization':session.getAccessToken().getJwtToken() })
+                }
+              ).subscribe( response=>{
+                  console.log(JSON.stringify( response));
+              });
+        });
+
+
   }
 
 }
